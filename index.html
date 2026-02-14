@@ -60,26 +60,52 @@ button:hover {
 }
 
 /* เอฟเฟกต์ */
-.particle {
+.big-rose {
     position: absolute;
-    font-size: 40px; /* ใหญ่ขึ้น */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    font-size: 120px;  /* ขนาดใหญ่ */
+    opacity: 0;
+    animation: showRose 2s ease-out forwards;
     pointer-events: none;
-    animation: explode 2.5s ease-out forwards;
 }
 
-@keyframes explode {
-    from {
-        transform: translate(-50%, -50%) scale(0.6);
-        opacity: 1;
-    }
-    to {
-        transform: translate(
-            calc(-50% + var(--x)),
-            calc(-50% + var(--y))
-        ) scale(1.2);
+.rose-text {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 100px);
+    transform: translateX(-50%);
+    font-size: 36px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 20px white, 0 0 40px hotpink;
+    opacity: 0;
+    animation: fadeText 2s ease-out forwards;
+    pointer-events: none;
+}
+
+@keyframes showRose {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5);
         opacity: 0;
     }
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
 }
+
+@keyframes fadeText {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
 
 
 
@@ -103,41 +129,25 @@ function celebrate() {
     if (isRunning) return;
     isRunning = true;
 
-    const maxParticles = 35;
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
+    let rose = document.createElement("div");
+    rose.className = "big-rose";
+    rose.innerHTML = "🌹";
 
-    const emojiSize = 40; // ต้องตรงกับ font-size
-    const maxRadius = Math.min(window.innerWidth, window.innerHeight) / 2 - emojiSize - 20;
+    let text = document.createElement("div");
+    text.className = "rose-text";
+    text.innerHTML = "For You 💖";
 
-    for (let i = 0; i < maxParticles; i++) {
-
-        let particle = document.createElement("div");
-        particle.className = "particle";
-        particle.innerHTML = ["🌹","💖","✨"][Math.floor(Math.random()*3)];
-
-        let angle = Math.random() * 2 * Math.PI;
-        let radius = Math.random() * maxRadius;
-
-        let x = Math.cos(angle) * radius;
-        let y = Math.sin(angle) * radius;
-
-        particle.style.left = centerX + "px";
-        particle.style.top = centerY + "px";
-
-        particle.style.setProperty('--x', x + "px");
-        particle.style.setProperty('--y', y + "px");
-
-        document.body.appendChild(particle);
-
-        setTimeout(() => particle.remove(), 2500);
-    }
+    document.body.appendChild(rose);
+    document.body.appendChild(text);
 
     setTimeout(() => {
+        rose.remove();
+        text.remove();
         isRunning = false;
-    }, 2600);
+    }, 4000);
 }
 </script>
+
 
 
 
