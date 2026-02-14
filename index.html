@@ -62,21 +62,25 @@ button:hover {
 /* เอฟเฟกต์ */
 .particle {
     position: absolute;
-    font-size: 24px;
+    font-size: 22px;
     pointer-events: none;
     animation: explode 2.5s ease-out forwards;
 }
 
 @keyframes explode {
-    0% {
+    from {
         transform: translate(-50%, -50%) scale(0.6);
         opacity: 1;
     }
-    100% {
-        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
+    to {
+        transform: translate(
+            calc(-50% + var(--x)),
+            calc(-50% + var(--y))
+        ) scale(1.2);
         opacity: 0;
     }
 }
+
 
 
 </style>
@@ -95,28 +99,32 @@ let isRunning = false;
 
 function celebrate() {
 
-    if (isRunning) return; // กันกดรัว
+    if (isRunning) return;
     isRunning = true;
 
+    const maxParticles = 40; // จำกัดจำนวน
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
 
-    for (let i = 0; i < 50; i++) {   // ลดเหลือ 50 ชิ้น
+    const maxRadius = Math.min(window.innerWidth, window.innerHeight) / 2 - 50;
+
+    for (let i = 0; i < maxParticles; i++) {
+
         let particle = document.createElement("div");
         particle.className = "particle";
         particle.innerHTML = ["🌹","💖","✨"][Math.floor(Math.random()*3)];
 
         let angle = Math.random() * 2 * Math.PI;
-        let radius = Math.random() * 300;
+        let radius = Math.random() * maxRadius;
 
-        let x = Math.cos(angle) * radius + "px";
-        let y = Math.sin(angle) * radius + "px";
-
-        particle.style.setProperty('--x', x);
-        particle.style.setProperty('--y', y);
+        let x = Math.cos(angle) * radius;
+        let y = Math.sin(angle) * radius;
 
         particle.style.left = centerX + "px";
         particle.style.top = centerY + "px";
+
+        particle.style.setProperty('--x', x + "px");
+        particle.style.setProperty('--y', y + "px");
 
         document.body.appendChild(particle);
 
@@ -128,6 +136,7 @@ function celebrate() {
     }, 2600);
 }
 </script>
+
 
 
 
