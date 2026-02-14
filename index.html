@@ -62,7 +62,7 @@ button:hover {
 /* เอฟเฟกต์ */
 .particle {
     position: absolute;
-    font-size: 22px;
+    font-size: 40px; /* ใหญ่ขึ้น */
     pointer-events: none;
     animation: explode 2.5s ease-out forwards;
 }
@@ -80,6 +80,7 @@ button:hover {
         opacity: 0;
     }
 }
+
 
 
 
@@ -102,11 +103,12 @@ function celebrate() {
     if (isRunning) return;
     isRunning = true;
 
-    const maxParticles = 40; // จำกัดจำนวน
+    const maxParticles = 35;
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
 
-    const maxRadius = Math.min(window.innerWidth, window.innerHeight) / 2 - 50;
+    const emojiSize = 40; // ต้องตรงกับ font-size
+    const maxRadius = Math.min(window.innerWidth, window.innerHeight) / 2 - emojiSize - 20;
 
     for (let i = 0; i < maxParticles; i++) {
 
@@ -136,6 +138,7 @@ function celebrate() {
     }, 2600);
 }
 </script>
+
 
 
 
