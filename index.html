@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Happy Valentine Day ❤️</title>
 
 <style>
@@ -19,36 +20,37 @@ body {
 
 /* รูป */
 .photo {
-    width: 250px;
-    height: 250px;
+    width: 220px;
+    height: 220px;
     border-radius: 50%;
     object-fit: cover;
     border: 6px solid white;
-    box-shadow: 0 0 40px rgba(255,255,255,0.8);
-    margin-bottom: 30px;
+    box-shadow: 0 0 30px rgba(255,255,255,0.8);
+    margin-bottom: 25px;
 }
 
 /* ข้อความ */
 .title {
-    font-size: 40px;
+    font-size: 32px;
     color: white;
     animation: glow 2s infinite alternate;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
+    text-align: center;
 }
 
 @keyframes glow {
-    from { text-shadow: 0 0 10px #fff, 0 0 20px #ff00aa; }
-    to { text-shadow: 0 0 30px #fff, 0 0 60px #ff1493; }
+    from { text-shadow: 0 0 10px #fff, 0 0 20px hotpink; }
+    to { text-shadow: 0 0 25px #fff, 0 0 50px deeppink; }
 }
 
 /* ปุ่ม */
 button {
-    padding: 18px 40px;
-    font-size: 22px;
+    padding: 15px 35px;
+    font-size: 20px;
     border: none;
     border-radius: 50px;
     background: white;
-    color: #ff1493;
+    color: deeppink;
     font-weight: bold;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -59,67 +61,55 @@ button:hover {
     transform: scale(1.1);
 }
 
-/* เอฟเฟกต์ */
-.big-rose {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
-    font-size: 120px;  /* ขนาดใหญ่ */
+/* ===== Overlay พื้นหลัง ===== */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     opacity: 0;
-    animation: showRose 2s ease-out forwards;
     pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+/* ดอกกุหลาบใหญ่ */
+.big-rose {
+    font-size: 140px;
+    animation: pop 0.8s ease forwards;
+    filter: drop-shadow(0 0 25px white);
 }
 
 .rose-text {
-    position: absolute;
-    left: 50%;
-    top: calc(50% + 100px);
-    transform: translateX(-50%);
     font-size: 36px;
     color: white;
-    font-weight: bold;
+    margin-top: 20px;
     text-shadow: 0 0 20px white, 0 0 40px hotpink;
-    opacity: 0;
-    animation: fadeText 2s ease-out forwards;
-    pointer-events: none;
 }
 
-@keyframes showRose {
-    0% {
-        transform: translate(-50%, -50%) scale(0.5);
-        opacity: 0;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 1;
-    }
+/* Animation */
+@keyframes pop {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }
-
-@keyframes fadeText {
-    0% { opacity: 0; }
-    50% { opacity: 1; }
-    100% { opacity: 1; }
-}
-
-
-
-
-
 </style>
 </head>
 
 <body>
 
-<img src="love.png" class="photo">
-
+<img src="love.jpg" class="photo">
 <div class="title">💖 Happy Valentine Day 💖</div>
-
 <button onclick="celebrate()">Click For Love 🌹</button>
+
+<!-- Overlay -->
+<div class="overlay" id="overlay">
+    <div class="big-rose">🌹</div>
+    <div class="rose-text">For You 💖</div>
+</div>
 
 <script>
 let isRunning = false;
@@ -129,29 +119,17 @@ function celebrate() {
     if (isRunning) return;
     isRunning = true;
 
-    let rose = document.createElement("div");
-    rose.className = "big-rose";
-    rose.innerHTML = "🌹";
-
-    let text = document.createElement("div");
-    text.className = "rose-text";
-    text.innerHTML = "For You 💖";
-
-    document.body.appendChild(rose);
-    document.body.appendChild(text);
+    const overlay = document.getElementById("overlay");
+    overlay.style.opacity = "1";
+    overlay.style.pointerEvents = "auto";
 
     setTimeout(() => {
-        rose.remove();
-        text.remove();
+        overlay.style.opacity = "0";
+        overlay.style.pointerEvents = "none";
         isRunning = false;
-    }, 4000);
+    }, 3500);
 }
 </script>
-
-
-
-
-
 
 </body>
 </html>
