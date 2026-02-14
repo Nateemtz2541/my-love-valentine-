@@ -62,21 +62,22 @@ button:hover {
 /* เอฟเฟกต์ */
 .particle {
     position: absolute;
-    font-size: 28px;
-    will-change: transform, opacity;
-    animation: explode 3.5s ease-out forwards;
+    font-size: 24px;
+    pointer-events: none;
+    animation: explode 2.5s ease-out forwards;
 }
 
 @keyframes explode {
-    from {
-        transform: translate(0,0) scale(0.5);
+    0% {
+        transform: translate(-50%, -50%) scale(0.6);
         opacity: 1;
     }
-    to {
-        transform: translate(var(--x), var(--y)) scale(1.2);
+    100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.2);
         opacity: 0;
     }
 }
+
 
 </style>
 </head>
@@ -90,31 +91,44 @@ button:hover {
 <button onclick="celebrate()">Click For Love 🌹</button>
 
 <script>
+let isRunning = false;
+
 function celebrate() {
 
-    const container = document.createDocumentFragment();
+    if (isRunning) return; // กันกดรัว
+    isRunning = true;
 
-    for (let i = 0; i < 80; i++) {  // ลดเหลือ 80
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    for (let i = 0; i < 50; i++) {   // ลดเหลือ 50 ชิ้น
         let particle = document.createElement("div");
         particle.className = "particle";
-        particle.innerHTML = ["🌹","🌸","💖","✨"][Math.floor(Math.random()*4)];
+        particle.innerHTML = ["🌹","💖","✨"][Math.floor(Math.random()*3)];
 
-        let x = (Math.random() - 0.5) * window.innerWidth;
-        let y = (Math.random() - 0.5) * window.innerHeight;
+        let angle = Math.random() * 2 * Math.PI;
+        let radius = Math.random() * 300;
 
-        particle.style.setProperty('--x', x + "px");
-        particle.style.setProperty('--y', y + "px");
-        particle.style.left = "50%";
-        particle.style.top = "50%";
+        let x = Math.cos(angle) * radius + "px";
+        let y = Math.sin(angle) * radius + "px";
 
-        container.appendChild(particle);
+        particle.style.setProperty('--x', x);
+        particle.style.setProperty('--y', y);
 
-        setTimeout(() => particle.remove(), 3500);
+        particle.style.left = centerX + "px";
+        particle.style.top = centerY + "px";
+
+        document.body.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 2500);
     }
 
-    document.body.appendChild(container);
+    setTimeout(() => {
+        isRunning = false;
+    }, 2600);
 }
 </script>
+
 
 
 </body>
