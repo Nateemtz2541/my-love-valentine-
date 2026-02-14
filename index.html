@@ -62,20 +62,22 @@ button:hover {
 /* เอฟเฟกต์ */
 .particle {
     position: absolute;
-    font-size: 30px;
-    animation: explode 4s ease-out forwards;
+    font-size: 28px;
+    will-change: transform, opacity;
+    animation: explode 3.5s ease-out forwards;
 }
 
 @keyframes explode {
-    0% {
-        transform: scale(0.5);
+    from {
+        transform: translate(0,0) scale(0.5);
         opacity: 1;
     }
-    100% {
-        transform: translate(var(--x), var(--y)) scale(1.5);
+    to {
+        transform: translate(var(--x), var(--y)) scale(1.2);
         opacity: 0;
     }
 }
+
 </style>
 </head>
 
@@ -89,24 +91,31 @@ button:hover {
 
 <script>
 function celebrate() {
-    for (let i = 0; i < 150; i++) {
+
+    const container = document.createDocumentFragment();
+
+    for (let i = 0; i < 80; i++) {  // ลดเหลือ 80
         let particle = document.createElement("div");
         particle.className = "particle";
-        particle.innerHTML = ["🌹","🌸","🌺","💐","💖","✨"][Math.floor(Math.random()*6)];
+        particle.innerHTML = ["🌹","🌸","💖","✨"][Math.floor(Math.random()*4)];
 
-        let x = (Math.random() - 0.5) * 1200 + "px";
-        let y = (Math.random() - 0.5) * 900 + "px";
+        let x = (Math.random() - 0.5) * window.innerWidth;
+        let y = (Math.random() - 0.5) * window.innerHeight;
 
-        particle.style.setProperty('--x', x);
-        particle.style.setProperty('--y', y);
+        particle.style.setProperty('--x', x + "px");
+        particle.style.setProperty('--y', y + "px");
         particle.style.left = "50%";
         particle.style.top = "50%";
 
-        document.body.appendChild(particle);
-        setTimeout(() => particle.remove(), 4000);
+        container.appendChild(particle);
+
+        setTimeout(() => particle.remove(), 3500);
     }
+
+    document.body.appendChild(container);
 }
 </script>
+
 
 </body>
 </html>
