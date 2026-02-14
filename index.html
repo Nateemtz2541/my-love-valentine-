@@ -7,31 +7,60 @@
 <style>
 body {
     margin: 0;
-    background: radial-gradient(circle at center, #ff758c, #ff7eb3, #ff4e50);
     height: 100vh;
     overflow: hidden;
+    background: radial-gradient(circle at center, #ff6a88, #ff99ac, #ff4e50);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-family: 'Arial Black', sans-serif;
 }
 
-/* ข้อความหลัก */
+/* รูป */
+.photo {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 6px solid white;
+    box-shadow: 0 0 40px rgba(255,255,255,0.8);
+    margin-bottom: 30px;
+}
+
+/* ข้อความ */
 .title {
-    font-size: 60px;
+    font-size: 40px;
     color: white;
-    text-align: center;
-    cursor: pointer;
     animation: glow 2s infinite alternate;
+    margin-bottom: 30px;
 }
 
 @keyframes glow {
     from { text-shadow: 0 0 10px #fff, 0 0 20px #ff00aa; }
-    to { text-shadow: 0 0 30px #fff, 0 0 60px #ff00aa; }
+    to { text-shadow: 0 0 30px #fff, 0 0 60px #ff1493; }
 }
 
-/* เอฟเฟกต์ดอกไม้ */
-.flower {
+/* ปุ่ม */
+button {
+    padding: 18px 40px;
+    font-size: 22px;
+    border: none;
+    border-radius: 50px;
+    background: white;
+    color: #ff1493;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* เอฟเฟกต์ */
+.particle {
     position: absolute;
     font-size: 30px;
     animation: explode 4s ease-out forwards;
@@ -47,67 +76,34 @@ body {
         opacity: 0;
     }
 }
-
-/* กลีบร่วง */
-.fall {
-    position: absolute;
-    font-size: 24px;
-    animation: fall 6s linear forwards;
-}
-
-@keyframes fall {
-    0% {
-        transform: translateY(-50px);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(110vh);
-        opacity: 0;
-    }
-}
 </style>
 </head>
 
 <body>
 
-<div class="title" onclick="celebrate()">
-    💖 Happy Valentine Day 💖
-</div>
+<img src="love.png" class="photo">
+
+<div class="title">💖 Happy Valentine Day 💖</div>
+
+<button onclick="celebrate()">Click For Love 🌹</button>
 
 <script>
 function celebrate() {
+    for (let i = 0; i < 150; i++) {
+        let particle = document.createElement("div");
+        particle.className = "particle";
+        particle.innerHTML = ["🌹","🌸","🌺","💐","💖","✨"][Math.floor(Math.random()*6)];
 
-    // Popup
-    alert("You are my forever 🌹❤️");
+        let x = (Math.random() - 0.5) * 1200 + "px";
+        let y = (Math.random() - 0.5) * 900 + "px";
 
-    // ดอกไม้ระเบิด
-    for (let i = 0; i < 80; i++) {
-        let flower = document.createElement("div");
-        flower.className = "flower";
-        flower.innerHTML = ["🌹","🌸","🌺","💐","💖"][Math.floor(Math.random()*5)];
+        particle.style.setProperty('--x', x);
+        particle.style.setProperty('--y', y);
+        particle.style.left = "50%";
+        particle.style.top = "50%";
 
-        let x = (Math.random() - 0.5) * 800 + "px";
-        let y = (Math.random() - 0.5) * 600 + "px";
-
-        flower.style.setProperty('--x', x);
-        flower.style.setProperty('--y', y);
-        flower.style.left = "50%";
-        flower.style.top = "50%";
-
-        document.body.appendChild(flower);
-
-        setTimeout(() => flower.remove(), 4000);
-    }
-
-    // กลีบดอกไม้ร่วง
-    for (let i = 0; i < 50; i++) {
-        let fall = document.createElement("div");
-        fall.className = "fall";
-        fall.innerHTML = ["🌸","🌺","💖"][Math.floor(Math.random()*3)];
-        fall.style.left = Math.random() * window.innerWidth + "px";
-        document.body.appendChild(fall);
-
-        setTimeout(() => fall.remove(), 6000);
+        document.body.appendChild(particle);
+        setTimeout(() => particle.remove(), 4000);
     }
 }
 </script>
